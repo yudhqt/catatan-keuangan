@@ -41,11 +41,14 @@ svg{display:block}
 .view.active{display:block}
 @keyframes viewIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .topbar{padding:calc(18px + env(safe-area-inset-top)) 0 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.topbar-left{min-width:0}
+.topbar-left{min-width:0;flex:1}
 .topbar-left h1{font-size:20px;font-weight:800;letter-spacing:-.035em;line-height:1.15}
 .topbar-left p{font-size:12px;color:var(--muted);margin-top:2px;font-weight:500}
+.topbar-actions{display:flex;gap:8px;align-items:center;flex-shrink:0}
 .icon-btn{width:40px;height:40px;border-radius:50%;flex:none;display:grid;place-items:center;color:var(--muted);background:var(--surface);border:1px solid var(--stroke);transition:.2s}
 .icon-btn:active{transform:scale(.92);color:var(--txt)}
+.icon-btn.install{color:var(--accent);background:rgba(167,139,250,.12);border-color:rgba(167,139,250,.3);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(167,139,250,.4)}50%{box-shadow:0 0 0 8px rgba(167,139,250,0)}}
 .card-visual{aspect-ratio:1.586;border-radius:22px;position:relative;overflow:hidden;padding:22px;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(135deg,#2a1f4d 0%,#14111f 45%,#1c1436 100%);border:1px solid rgba(167,139,250,.18);box-shadow:0 24px 60px rgba(0,0,0,.55), 0 0 60px rgba(139,92,246,.08), inset 0 1px 0 rgba(255,255,255,.1);margin-bottom:14px;color:#fff}
 .card-visual::before{content:'';position:absolute;inset:-40%;background:conic-gradient(from 220deg at 50% 50%,transparent 0deg, rgba(167,139,250,.22) 40deg, transparent 90deg,transparent 180deg, rgba(56,189,248,.12) 230deg, transparent 280deg);animation:holo 14s linear infinite;pointer-events:none}
 @keyframes holo{to{transform:rotate(360deg)}}
@@ -243,9 +246,18 @@ input[type="date"].inp{color-scheme:dark}
         <h1 id="greetTitle">Halo 👋</h1>
         <p id="greetSub">—</p>
       </div>
-      <button class="icon-btn" onclick="openSettings()" aria-label="Settings">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-      </button>
+      <div class="topbar-actions">
+        <button class="icon-btn" id="installBtn" onclick="installPWA()" aria-label="Install app" style="display:none">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <path d="M7 10l5 5 5-5"/>
+            <path d="M12 15V3"/>
+          </svg>
+        </button>
+        <button class="icon-btn" onclick="openSettings()" aria-label="Settings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+      </div>
     </div>
 
     <div class="card-visual">
@@ -543,9 +555,10 @@ const monthShort=m=>LANG==='id'?MONTHS_S[m]:MONTHS_S_EN[m];
 const longDate=d=>d.toLocaleDateString(LANG==='id'?'id-ID':'en-US',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 const TODAY=new Date();
 
-/* localStorage */
 const LS_TX='ck_transactions_v1';
 const LS_CAT='ck_categories_v1';
+let CATS=[];let TX=[];let catMap={};
+function rebuildCatMap(){ catMap=Object.fromEntries(CATS.map(c=>[c.id,c])); }
 function loadData(){
   try{
     const txRaw=localStorage.getItem(LS_TX);
@@ -557,8 +570,6 @@ function loadData(){
 }
 function saveTx(){ try{ localStorage.setItem(LS_TX,JSON.stringify(TX)); }catch(e){} }
 function saveCats(){ try{ localStorage.setItem(LS_CAT,JSON.stringify(CATS)); }catch(e){} }
-let CATS=[];let TX=[];let catMap={};
-function rebuildCatMap(){ catMap=Object.fromEntries(CATS.map(c=>[c.id,c])); }
 
 const S={actM:TODAY.getMonth(),actY:TODAY.getFullYear(),repM:TODAY.getMonth(),repY:TODAY.getFullYear(),formCat:'makanan',formAmount:0,detailId:null,detailCat:'makanan',detailAmount:0,detailEdit:false,onConfirm:null,newIcon:'sparkle',newColor:COLOR_PALETTE[0],theme:'dark',lang:'id',activeIconGroup:'food'};
 
@@ -666,9 +677,9 @@ function greeting(){const h=new Date().getHours();return h<11?t('greet.morning')
 
 function renderHome(){
   const tISO=iso(TODAY);
-  const day=TX.filter(t=>t.date===tISO);
+  const day=TX.filter(t2=>t2.date===tISO);
   const mNow=TODAY.getMonth(),yNow=TODAY.getFullYear();
-  const month=TX.filter(t=>{const d=parseISO(t.date);return d.getMonth()===mNow&&d.getFullYear()===yNow;});
+  const month=TX.filter(t2=>{const d=parseISO(t2.date);return d.getMonth()===mNow&&d.getFullYear()===yNow;});
   document.getElementById('greetTitle').textContent=greeting()+' 👋';
   document.getElementById('greetSub').textContent=longDate(new Date());
   document.getElementById('homeMonthTotal').textContent=rp(month.reduce((a,b)=>a+b.amount,0));
@@ -692,7 +703,7 @@ function renderHome(){
 }
 
 function renderAct(){
-  const list=TX.filter(t=>{const d=parseISO(t.date);return d.getMonth()===S.actM&&d.getFullYear()===S.actY;});
+  const list=TX.filter(t2=>{const d=parseISO(t2.date);return d.getMonth()===S.actM&&d.getFullYear()===S.actY;});
   list.sort((a,b)=>a.date<b.date?1:a.date>b.date?-1:(a.id<b.id?1:-1));
   document.getElementById('actTotal').textContent=rp(list.reduce((a,b)=>a+b.amount,0));
   document.getElementById('actCount').textContent=list.length+' '+t('act.trx');
@@ -935,6 +946,58 @@ function askDeleteCategory(id){
     CATS=CATS.filter(x=>x.id!==id);saveCats();rebuildCatMap();saveTx();
     renderCatManager();renderAll();toast(t('toast.catDeleted'),true);
   }});
+}
+
+/* ============ PWA INSTALL ============ */
+let deferredPrompt=null;
+
+window.addEventListener('beforeinstallprompt',(e)=>{
+  e.preventDefault();
+  deferredPrompt=e;
+  showInstallBtn();
+});
+
+function showInstallBtn(){
+  const btn=document.getElementById('installBtn');
+  if(!btn)return;
+  if(window.matchMedia('(display-mode: standalone)').matches)return;
+  if(window.navigator.standalone===true)return;
+  btn.style.display='grid';
+  btn.classList.add('install');
+}
+
+function installPWA(){
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((choice)=>{
+      if(choice.outcome==='accepted'){
+        toast(LANG==='id'?'Aplikasi berhasil di-install ✓':'App installed ✓');
+      } else {
+        toast(LANG==='id'?'Install dibatalkan':'Install cancelled',true);
+      }
+      deferredPrompt=null;
+      document.getElementById('installBtn').style.display='none';
+    });
+  } else {
+    const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent);
+    const isAndroid=/Android/.test(navigator.userAgent);
+    let msg='';
+    if(isIOS)msg='Tap ikon Share (kotak dengan panah ke atas), lalu pilih "Add to Home Screen".';
+    else if(isAndroid)msg='Tap menu ⋮ di kanan atas, lalu pilih "Install app" atau "Add to Home screen".';
+    else msg=LANG==='id'?'Buka menu browser, pilih "Install app".':'Open browser menu, choose "Install app".';
+    alert(msg);
+  }
+}
+
+window.addEventListener('appinstalled',()=>{
+  document.getElementById('installBtn').style.display='none';
+  deferredPrompt=null;
+  toast(LANG==='id'?'Aplikasi berhasil di-install ✓':'App installed ✓');
+});
+
+/* Cek saat load: kalau sudah standalone, sembunyikan tombol */
+if(window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone===true){
+  setTimeout(()=>{const b=document.getElementById('installBtn');if(b)b.style.display='none';},100);
 }
 
 (function initPickers(){
