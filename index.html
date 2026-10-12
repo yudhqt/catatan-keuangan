@@ -5,10 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
 <meta name="theme-color" content="#08080c">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Catatan Keuangan">
-<meta name="app-version" content="1.0.1">
-<link rel="manifest" href="data:application/json,%7B%22name%22%3A%22Catatan%20Keuangan%22%2C%22short_name%22%3A%22CatKeu%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%2308080c%22%2C%22theme_color%22%3A%22%2308080c%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%2520xmlns%253D%2527http%253A%2F%2Fwww.w3.org%2F2000%2Fsvg%2527%2520viewBox%253D%25270%25200%252064%252064%2527%253E%253Crect%2520width%253D%252764%2527%2520height%253D%252764%2527%2520rx%253D%252714%2527%2520fill%253D%2527%25238b5cf6%2527%2F%253E%253Ctext%2520x%253D%252732%2527%2520y%253D%252744%2527%2520font-size%253D%252732%2527%2520font-family%253D%2527sans-serif%2527%2520font-weight%253D%2527900%2527%2520fill%253D%2527white%2527%2520text-anchor%253D%2527middle%2527%253ECK%253C%2Ftext%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D">
+<meta name="app-version" content="1.1.0">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon.svg">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
 <title>Catatan Keuangan</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -43,7 +46,7 @@ svg{display:block}
 .view.active{display:block}
 @keyframes viewIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
-/* ============ UPDATE BANNER ============ */
+/* UPDATE BANNER */
 .update-banner{
   position:fixed;top:0;left:0;right:0;z-index:200;
   background:linear-gradient(135deg,#f59e0b,#d97706);
@@ -56,60 +59,28 @@ svg{display:block}
 @keyframes slideDown{from{transform:translateY(-100%)}to{transform:none}}
 .update-banner .txt{flex:1;font-size:13px;font-weight:700}
 .update-banner .txt small{display:block;font-size:11px;font-weight:500;opacity:.85;margin-top:2px}
-.update-banner button{
-  padding:8px 16px;border-radius:99px;font-size:12px;font-weight:800;
-  background:#fff;color:#d97706;flex:none;
-}
+.update-banner button{padding:8px 16px;border-radius:99px;font-size:12px;font-weight:800;background:#fff;color:#d97706;flex:none}
 
-/* ============ LOGIN ============ */
-.login-wrap{
-  position:fixed;inset:0;z-index:150;display:none;
-  align-items:center;justify-content:center;padding:24px;
-  background:var(--bg);
-}
+/* LOGIN */
+.login-wrap{position:fixed;inset:0;z-index:150;display:none;align-items:center;justify-content:center;padding:24px;background:var(--bg)}
 .login-wrap.show{display:flex}
-.login-box{
-  width:100%;max-width:360px;padding:34px 26px 26px;
-  background:var(--sheet-bg);border:1px solid var(--stroke-2);
-  border-radius:28px;box-shadow:0 26px 70px rgba(0,0,0,.5);
-  animation:pop .4s cubic-bezier(.2,.9,.3,1);
-}
+.login-box{width:100%;max-width:360px;padding:34px 26px 26px;background:var(--sheet-bg);border:1px solid var(--stroke-2);border-radius:28px;box-shadow:0 26px 70px rgba(0,0,0,.5);animation:pop .4s cubic-bezier(.2,.9,.3,1)}
 @keyframes pop{from{opacity:0;transform:scale(.94) translateY(16px)}to{opacity:1;transform:none}}
-.login-logo{
-  width:64px;height:64px;margin:0 auto 20px;border-radius:20px;
-  display:grid;place-items:center;
-  background:linear-gradient(135deg,var(--accent),var(--accent-3));
-  color:#fff;font-weight:900;font-size:24px;letter-spacing:-.04em;
-  box-shadow:0 12px 32px rgba(139,92,246,.4);
-}
+.login-logo{width:64px;height:64px;margin:0 auto 20px;border-radius:20px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent-3));color:#fff;font-weight:900;font-size:24px;letter-spacing:-.04em;box-shadow:0 12px 32px rgba(139,92,246,.4)}
 .login-box h2{font-size:22px;font-weight:800;letter-spacing:-.03em;text-align:center;margin-bottom:8px}
 .login-box p.sub{font-size:13px;color:var(--muted);text-align:center;line-height:1.5;margin-bottom:26px}
-.login-error{
-  display:none;padding:11px 14px;margin-bottom:16px;border-radius:12px;
-  background:rgba(244,63,94,.1);border:1px solid rgba(244,63,94,.3);
-  color:#fca5a5;font-size:12px;font-weight:600;
-}
+.login-error{display:none;padding:11px 14px;margin-bottom:16px;border-radius:12px;background:rgba(244,63,94,.1);border:1px solid rgba(244,63,94,.3);color:#fca5a5;font-size:12px;font-weight:600}
 .login-error.show{display:block}
 .login-box .field{margin-bottom:14px}
 .login-box .field label{display:block;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:7px;letter-spacing:.06em;text-transform:uppercase}
-.login-box .inp{
-  width:100%;padding:14px 16px;border-radius:14px;
-  background:var(--surface-2);border:1px solid var(--stroke);
-  font-size:14px;font-weight:600;color:var(--txt);
-}
+.login-box .inp{width:100%;padding:14px 16px;border-radius:14px;background:var(--surface-2);border:1px solid var(--stroke);font-size:14px;font-weight:600;color:var(--txt)}
 .login-box .inp:focus{border-color:rgba(167,139,250,.5);background:rgba(167,139,250,.05)}
-.login-btn{
-  width:100%;padding:15px;border-radius:16px;margin-top:8px;
-  background:linear-gradient(135deg,var(--accent),var(--accent-3));
-  color:#fff;font-size:14px;font-weight:800;letter-spacing:-.01em;
-  box-shadow:0 10px 26px rgba(139,92,246,.3);
-  transition:transform .16s;position:relative;
-}
+.login-btn{width:100%;padding:15px;border-radius:16px;margin-top:8px;background:linear-gradient(135deg,var(--accent),var(--accent-3));color:#fff;font-size:14px;font-weight:800;letter-spacing:-.01em;box-shadow:0 10px 26px rgba(139,92,246,.3);transition:transform .16s;position:relative}
 .login-btn:active{transform:scale(.97)}
 .login-btn:disabled{opacity:.6;pointer-events:none}
 .login-note{font-size:11px;color:var(--muted-2);text-align:center;margin-top:18px;line-height:1.6}
 
-/* ============ MAIN ============ */
+/* MAIN */
 .topbar{padding:calc(18px + env(safe-area-inset-top)) 0 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .topbar-left{min-width:0;flex:1}
 .topbar-left h1{font-size:20px;font-weight:800;letter-spacing:-.035em;line-height:1.15}
@@ -310,14 +281,12 @@ input[type="date"].inp{color-scheme:dark}
 
 <div class="bg-glow"></div>
 
-<!-- UPDATE BANNER -->
 <div class="update-banner" id="updateBanner">
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg>
   <div class="txt">Versi baru tersedia<small>Update untuk dapatkan fitur terbaru</small></div>
   <button onclick="forceUpdate()">Update</button>
 </div>
 
-<!-- LOGIN SCREEN -->
 <div class="login-wrap" id="loginWrap">
   <div class="login-box">
     <div class="login-logo">CK</div>
@@ -337,7 +306,6 @@ input[type="date"].inp{color-scheme:dark}
   </div>
 </div>
 
-<!-- MAIN APP -->
 <div class="app" id="app" style="display:none">
   <section class="view active" id="v-home">
     <div class="topbar">
@@ -347,11 +315,7 @@ input[type="date"].inp{color-scheme:dark}
       </div>
       <div class="topbar-actions">
         <button class="icon-btn" id="installBtn" onclick="installPWA()" aria-label="Install app" style="display:none">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-            <path d="M7 10l5 5 5-5"/>
-            <path d="M12 15V3"/>
-          </svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
         </button>
         <button class="icon-btn" onclick="openSettings()" aria-label="Settings">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
@@ -437,7 +401,6 @@ input[type="date"].inp{color-scheme:dark}
   </div>
 </nav>
 
-<!-- SHEETS (form, detail, settings, cat manager) -->
 <div class="sheet" id="sheetForm">
   <div class="sheet-bd" onclick="closeForm()"></div>
   <div class="sheet-panel">
@@ -575,9 +538,7 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const APP_VERSION = document.querySelector('meta[name="app-version"]').content;
 let sb = null;
 
-/* =========================================================
-   ICONS
-   ========================================================= */
+/* ============ ICONS ============ */
 const ICONS={bowl:'<path d="M4 12h16a8 8 0 0 1-16 0z"/><path d="M9 8V6M12 7V4M15 8V6"/>',coffee:'<path d="M17 10h1a3 3 0 0 1 0 6h-1"/><path d="M3 10h14v7a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-7z"/><path d="M8 3v3M12 3v3"/>',cake:'<path d="M3 21h18"/><path d="M5 21v-8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8"/><path d="M12 11V4M9 6h6"/>',pizza:'<path d="M12 3 3 20l9-3.5 9 3.5z"/>',ice:'<path d="M8 9a4 4 0 0 1 8 0z"/><path d="M12 9v12"/>',apple:'<circle cx="12" cy="14" r="7"/><path d="M12 7V4"/>',car:'<path d="M5 17h14v-5l-2-5H7l-2 5v5z"/><circle cx="8" cy="17" r="2"/><circle cx="16" cy="17" r="2"/>',bike:'<circle cx="6" cy="16" r="3"/><circle cx="18" cy="16" r="3"/><path d="M6 16 10 8h5l3 8M10 8h5"/>',fuel:'<path d="M3 22V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/><path d="M3 12h12"/><path d="M15 8h2a2 2 0 0 1 2 2v8a2 2 0 0 0 2 2"/><path d="M6 8h6"/>',plane:'<path d="M17.8 19.2 16 11l3.5-3.5a2.12 2.12 0 0 0-3-3L13 8 4.8 6.2a.5.5 0 0 0-.5.8l4.2 4.5-2.5 2.5-2.5-.5-1 1 2.5 2.5 1-1-.5-2.5 2.5-2.5 4.5 4.2a.5.5 0 0 0 .8-.5z"/>',bus:'<rect x="4" y="4" width="16" height="14" rx="2"/><path d="M4 11h16M8 18v2M16 18v2"/>',train:'<rect x="4" y="3" width="16" height="15" rx="2"/><path d="M4 11h16M8 18l-2 3M16 18l2 3"/>',bag:'<path d="M6 2 4 6v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6l-2-4z"/><path d="M4 6h16"/><path d="M16 10a4 4 0 0 1-8 0"/>',shirt:'<path d="M20 6 15 3a3 3 0 0 1-6 0L4 6l3 4v11h10V10l3-4z"/>',gift:'<rect x="3" y="8" width="18" height="4"/><path d="M12 8v13M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/>',tag:'<path d="M20.6 13.4 12 22 2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z"/><circle cx="7" cy="7" r="1.5"/>',shoe:'<path d="M3 20h18a4 4 0 0 0-4-4l-5-2-2-4H5a2 2 0 0 0-2 2v8z"/>',home:'<path d="m3 10 9-8 9 8v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/>',bulb:'<path d="M9 18h6M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.4 1 2.3h6c0-.9.4-1.8 1-2.3A7 7 0 0 0 12 2z"/>',droplet:'<path d="M12 2.7 5.3 9.4a9 9 0 1 0 13.4 0z"/>',wrench:'<path d="M14.7 6.3a4 4 0 0 0 5 5l-9.4 9.4a2.1 2.1 0 0 1-3-3l9.4-9.4a4 4 0 0 0-5-5l1.4 1.4-2.8 2.8 1.4 1.4 2.8-2.8z"/>',flame:'<path d="M12 2s4 4 4 9a4 4 0 1 1-8 0c0-2 1-3 1-3s0 2 1 2 0-6 2-8z"/>',heart:'<path d="M20.8 5.6a5.5 5.5 0 0 0-7.8 0L12 6.6l-1-1a5.5 5.5 0 0 0-7.8 7.8L12 22l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/>',pill:'<rect x="3" y="9" width="18" height="6" rx="3" transform="rotate(-45 12 12)"/><path d="M9 9l6 6"/>',activity:'<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',film:'<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 3v18M17 3v18M3 8h4M3 16h4M17 8h4M17 16h4M7 12h10"/>',gamepad:'<rect x="2" y="8" width="20" height="10" rx="5"/><path d="M7 11v4M5 13h4M15 12h.01M18 15h.01"/>',music:'<circle cx="8" cy="18" r="4"/><path d="M12 18V4l10-2v14"/><circle cx="18" cy="16" r="4"/>',tv:'<rect x="2" y="7" width="20" height="14" rx="2"/><path d="m7 3 5 4 5-4"/>',headphone:'<path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>',book:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',grad:'<path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/>',pencil:'<path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',wallet:'<path d="M3 6a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2v3"/><path d="M3 6v12a2 2 0 0 0 2 2h15a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2H5a2 2 0 0 1-2-2z"/><circle cx="17" cy="13" r="1"/>',banknote:'<rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M6 12h.01M18 12h.01"/>',coins:'<circle cx="8" cy="8" r="6"/><path d="M18.1 6.5a6 6 0 0 1 0 11M15.5 8.5a6 6 0 0 1 0 7"/>',chart:'<path d="M3 3v18h18"/><path d="m7 15 4-4 4 4 5-6"/>',bank:'<path d="M3 10 12 4l9 6"/><path d="M5 10v8M9 10v8M15 10v8M19 10v8M3 21h18"/>',sparkle:'<path d="m12 3 1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2z"/>',star:'<path d="m12 2 3 7 7 .5-5.3 4.8 1.6 7.2L12 18l-6.3 3.5L7.3 14.3 2 9.5l7-.5z"/>',paw:'<circle cx="7" cy="8" r="2"/><circle cx="12" cy="5" r="2"/><circle cx="17" cy="8" r="2"/><path d="M12 11c-3 0-5 2-5 5 0 2 1.5 3 5 3s5-1 5-3c0-3-2-5-5-5z"/>',leaf:'<path d="M20 4c-9 0-16 3-16 10a6 6 0 0 0 10 4.5M20 4c0 6-3 10-6 12"/>',camera:'<path d="M3 8a2 2 0 0 1 2-2h2l2-3h6l2 3h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="4"/>',box:'<path d="m3 7 9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/>'};
 const ICON_GROUPS=[{id:'food',name:{id:'Makanan',en:'Food'},icons:['bowl','coffee','cake','pizza','ice','apple']},{id:'trans',name:{id:'Transport',en:'Transport'},icons:['car','bike','fuel','plane','bus','train']},{id:'shop',name:{id:'Belanja',en:'Shopping'},icons:['bag','shirt','gift','tag','shoe']},{id:'home',name:{id:'Rumah',en:'Home'},icons:['home','bulb','droplet','wrench','flame']},{id:'health',name:{id:'Kesehatan',en:'Health'},icons:['heart','pill','activity']},{id:'fun',name:{id:'Hiburan',en:'Fun'},icons:['film','gamepad','music','tv','headphone']},{id:'edu',name:{id:'Edukasi',en:'Edu'},icons:['book','grad','pencil']},{id:'money',name:{id:'Keuangan',en:'Money'},icons:['wallet','banknote','coins','chart','bank']},{id:'other',name:{id:'Lainnya',en:'Other'},icons:['sparkle','star','paw','leaf','camera','box']}];
 const iconSvg=(n,size=20,sw=1.9)=>`<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">${ICONS[n]||ICONS.sparkle}</svg>`;
@@ -603,9 +564,6 @@ const monthShort=m=>LANG==='id'?MONTHS_S[m]:MONTHS_S_EN[m];
 const longDate=d=>d.toLocaleDateString(LANG==='id'?'id-ID':'en-US',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 const TODAY=new Date();
 
-/* =========================================================
-   STATE
-   ========================================================= */
 let CATS=[...CATS_INIT.map(c=>({...c}))];
 let TX=[];
 let catMap={};
@@ -613,18 +571,13 @@ let CURRENT_USER=null;
 const S={actM:TODAY.getMonth(),actY:TODAY.getFullYear(),repM:TODAY.getMonth(),repY:TODAY.getFullYear(),formCat:'makanan',formAmount:0,detailId:null,detailCat:'makanan',detailAmount:0,detailEdit:false,onConfirm:null,newIcon:'sparkle',newColor:COLOR_PALETTE[0],theme:'dark',activeIconGroup:'food'};
 function rebuildCatMap(){catMap=Object.fromEntries(CATS.map(c=>[c.id,c]));}
 
-/* =========================================================
-   UTILITIES
-   ========================================================= */
+/* ============ UTILS ============ */
 function toast(msg,err){const el=document.getElementById('toast');document.getElementById('toastTxt').textContent=msg;el.classList.toggle('err',!!err);el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2000);}
 function confirmBox({icon='sparkle',title,msg,yes,danger=false,onYes}){const m=document.getElementById('modal');document.getElementById('mIcon').innerHTML=iconSvg(icon,26,2);document.getElementById('mTitle').textContent=title;document.getElementById('mMsg').textContent=msg;const y=document.getElementById('mYes');y.textContent=yes;y.className='btn '+(danger?'danger':'primary');document.getElementById('mNo').textContent=t('confirm.no');S.onConfirm=onYes;m.classList.add('open');}
 function closeConfirm(){document.getElementById('modal').classList.remove('open');S.onConfirm=null;}
 document.getElementById('mNo').onclick=closeConfirm;
 document.getElementById('mYes').onclick=()=>{const f=S.onConfirm;closeConfirm();if(f)f();};
 
-/* =========================================================
-   THEME & LANG
-   ========================================================= */
 function setTheme(theme){S.theme=theme;document.documentElement.setAttribute('data-theme',theme);document.querySelector('meta[name="theme-color"]').setAttribute('content',theme==='light'?'#f5f5f8':'#08080c');document.getElementById('themeToggle').classList.toggle('on',theme==='dark');document.getElementById('setTheme').textContent=theme==='dark'?t('set.theme'):t('set.themeLight');try{localStorage.setItem('ck_theme',theme);}catch(e){}}
 function toggleTheme(){setTheme(S.theme==='dark'?'light':'dark');}
 function setLang(lang){S.lang=lang;LANG=lang;document.getElementById('langToggle').classList.toggle('on',lang==='en');applyTranslations();if(window._refillMonthSelects)window._refillMonthSelects();renderAll();try{localStorage.setItem('ck_lang',lang);}catch(e){}}
@@ -655,23 +608,15 @@ function applyTranslations(){
   set('setLangSub',S.lang==='en'?t('set.langSubEn'):t('set.langSub'));
 }
 
-/* =========================================================
-   NAV
-   ========================================================= */
 document.querySelectorAll('.nav-btn').forEach(b=>{b.onclick=()=>setView(b.dataset.view);});
 function setView(v){
   document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
   document.getElementById('v-'+v).classList.add('active');
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.view===v));
-  if(v==='home')renderHome();
-  if(v==='act')renderAct();
-  if(v==='rep')renderRep();
+  if(v==='home')renderHome();if(v==='act')renderAct();if(v==='rep')renderRep();
   window.scrollTo({top:0,behavior:'instant'});
 }
 
-/* =========================================================
-   RENDER
-   ========================================================= */
 function greeting(){const h=new Date().getHours();return h<11?t('greet.morning'):h<15?t('greet.noon'):h<19?t('greet.afternoon'):t('greet.evening');}
 
 function renderHome(){
@@ -724,9 +669,6 @@ function renderRep(){
 
 function renderAll(){renderHome();renderAct();renderRep();}
 
-/* =========================================================
-   CATEGORY DROPDOWN
-   ========================================================= */
 function buildCatOptions(containerId,selected,onPick){
   const el=document.getElementById(containerId);
   el.innerHTML=CATS.map(c=>`<button class="cat-opt ${c.id===selected?'on':''}" data-id="${c.id}" type="button"><span class="ic" style="background:${c.color}1a;border:1px solid ${c.color}33;color:${c.color}">${iconSvg(c.icon,16)}</span><span class="nm">${esc(c.name)}</span><svg class="ck" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></button>`).join('')+`<button class="cat-opt-add" type="button" onclick="openCatManager()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>${t('catm.new')}</button>`;
@@ -740,15 +682,11 @@ function formatAmountInput(el,setter){el.addEventListener('input',()=>{let raw=e
 formatAmountInput(document.getElementById('fAmount'),v=>S.formAmount=v);
 formatAmountInput(document.getElementById('dAmount'),v=>S.detailAmount=v);
 
-/* =========================================================
-   FORM
-   ========================================================= */
 function openForm(){S.formCat=CATS[0].id;S.formAmount=0;document.getElementById('fDate').value=iso(TODAY);document.getElementById('fAmount').value='';document.getElementById('fNote').value='';updateCatTrigger('f',S.formCat);buildCatOptions('fCatOptions',S.formCat,id=>{S.formCat=id;updateCatTrigger('f',id);});closeCatDropdown();document.getElementById('sheetForm').classList.add('open');}
 function closeForm(){closeCatDropdown();document.getElementById('sheetForm').classList.remove('open');}
 function askCancelForm(){confirmBox({icon:'box',title:t('confirm.cancelTitle'),msg:t('confirm.cancelMsg'),yes:t('confirm.cancelYes'),danger:true,onYes:()=>{closeForm();toast(t('toast.cancelInput'));}});}
 async function askSaveForm(){
-  const date=document.getElementById('fDate').value;
-  const note=document.getElementById('fNote').value.trim();
+  const date=document.getElementById('fDate').value;const note=document.getElementById('fNote').value.trim();
   if(!date)return toast(LANG==='id'?'Tanggal belum dipilih':'Please pick a date',true);
   if(!S.formAmount||S.formAmount<=0)return toast(LANG==='id'?'Jumlah belum diisi':'Amount required',true);
   const c=catMap[S.formCat]||catMap['lainnya'];
@@ -759,9 +697,6 @@ async function askSaveForm(){
   }});
 }
 
-/* =========================================================
-   DETAIL / EDIT
-   ========================================================= */
 function openDetail(id){const t2=TX.find(x=>x.id===id);if(!t2)return;S.detailId=id;S.detailCat=t2.cat;S.detailAmount=t2.amount;S.detailEdit=false;document.getElementById('detailView').style.display='block';document.getElementById('detailEdit').style.display='none';renderDetailView(t2);document.getElementById('sheetDetail').classList.add('open');}
 function renderDetailView(tx){const c=catMap[tx.cat]||catMap['lainnya'];const d=parseISO(tx.date);const icEl=document.getElementById('dVIcon');icEl.style.background=c.color+'1a';icEl.style.border='1px solid '+c.color+'33';icEl.style.color=c.color;icEl.innerHTML=iconSvg(c.icon,28,1.8);document.getElementById('dVName').textContent=c.name;document.getElementById('dVAmount').textContent=rp(tx.amount);document.getElementById('dVDate').textContent=longDate(d);const noteWrap=document.getElementById('dVNoteWrap');if(tx.note&&tx.note.trim()){noteWrap.style.display='block';document.getElementById('dVNote').textContent=tx.note;}else noteWrap.style.display='none';}
 function enterEditMode(){const tx=TX.find(x=>x.id===S.detailId);if(!tx)return;S.detailEdit=true;S.detailCat=tx.cat;S.detailAmount=tx.amount;S._origDate=tx.date;S._origCat=tx.cat;S._origAmount=tx.amount;S._origNote=tx.note||'';document.getElementById('dDate').value=tx.date;document.getElementById('dNote').value=tx.note||'';document.getElementById('dAmount').value=tx.amount.toLocaleString('id-ID');updateCatTrigger('d',tx.cat);buildCatOptions('dCatOptions',tx.cat,id=>{S.detailCat=id;updateCatTrigger('d',id);});closeCatDropdown();document.getElementById('detailView').style.display='none';document.getElementById('detailEdit').style.display='block';}
@@ -772,16 +707,10 @@ function askBackEdit(){if(!hasChanges()){backToView();return;}confirmBox({icon:'
 function askDelete(){const tx=TX.find(x=>x.id===S.detailId);if(!tx)return;const c=catMap[tx.cat]||catMap['lainnya'];confirmBox({icon:'box',title:t('confirm.delTxTitle'),msg:`${c.name} • ${rp(tx.amount)} ${t('confirm.delTxMsg')}`,yes:t('confirm.delTxYes'),danger:true,onYes:async()=>{TX=TX.filter(x=>x.id!==S.detailId);saveTxLocal();closeDetail();renderAll();toast(t('toast.deleted'),true);await cloudDeleteTx(tx.id);}});}
 function askSaveEdit(){const tx=TX.find(x=>x.id===S.detailId);if(!tx)return;const date=document.getElementById('dDate').value;const note=document.getElementById('dNote').value.trim();if(!date)return toast(LANG==='id'?'Tanggal belum dipilih':'Please pick a date',true);if(!S.detailAmount||S.detailAmount<=0)return toast(LANG==='id'?'Jumlah tidak valid':'Invalid amount',true);if(!hasChanges()){backToView();return;}const c=catMap[S.detailCat]||catMap['lainnya'];confirmBox({icon:'banknote',title:t('confirm.saveEditTitle'),msg:`${c.name} • ${rp(S.detailAmount)} ${t('confirm.saveEditMsg')}`,yes:t('edit.save'),onYes:async()=>{tx.date=date;tx.cat=S.detailCat;tx.amount=S.detailAmount;tx.note=note;saveTxLocal();renderDetailView(tx);backToView();renderAll();toast(t('toast.updated'));await cloudUpdateTx(tx);}});}
 
-/* =========================================================
-   SETTINGS
-   ========================================================= */
 function openSettings(){document.getElementById('sheetSettings').classList.add('open');}
 function closeSettings(){document.getElementById('sheetSettings').classList.remove('open');}
 function askLogout(){closeSettings();confirmBox({icon:'box',title:t('confirm.logoutTitle'),msg:t('confirm.logoutMsg'),yes:t('confirm.logoutYes'),danger:true,onYes:async()=>{await sb.auth.signOut();location.reload();}});}
 
-/* =========================================================
-   CATEGORY MANAGER
-   ========================================================= */
 function openCatManager(){closeSettings();closeForm();closeDetail();renderCatManager();buildIconTabs();buildIconGrid();buildColorRow();document.getElementById('sheetCat').classList.add('open');}
 function closeCatManager(){document.getElementById('sheetCat').classList.remove('open');}
 function renderCatManager(){const el=document.getElementById('catmList');el.innerHTML=CATS.map(c=>{const used=TX.filter(t2=>t2.cat===c.id).length;return `<div class="catm-row"><div class="ic" style="background:${c.color}1a;border:1px solid ${c.color}33;color:${c.color}">${iconSvg(c.icon,18)}</div><div class="nm"><strong>${esc(c.name)}</strong><small>${used} ${t('catm.used')}${c.locked?' • '+t('catm.locked'):''}</small></div><button class="catm-del ${c.locked?'locked':''}" onclick="askDeleteCategory('${c.id}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg></button></div>`;}).join('');}
@@ -792,18 +721,12 @@ function toggleIconPicker(){const g=document.getElementById('iconGrid');g.style.
 async function addCategory(){const nameEl=document.getElementById('newCatName');const name=nameEl.value.trim();if(!name){toast(LANG==='id'?'Nama kategori belum diisi':'Category name required',true);return;}if(name.length<2){toast(LANG==='id'?'Nama terlalu pendek':'Name too short',true);return;}if(CATS.some(c=>c.name.toLowerCase()===name.toLowerCase())){toast(LANG==='id'?'Kategori sudah ada':'Category exists',true);return;}if(CATS.length>=32){toast(LANG==='id'?'Maksimal 32 kategori':'Max 32 categories',true);return;}let id=slug(name);while(CATS.some(c=>c.id===id))id=id+'_'+uid().slice(0,3);const cat={id,name,icon:S.newIcon,color:S.newColor,locked:false};CATS.push(cat);saveCatsLocal();rebuildCatMap();nameEl.value='';S.newIcon='sparkle';S.newColor=COLOR_PALETTE[0];document.getElementById('newIconBtn').innerHTML=iconSvg(S.newIcon,22,1.8);document.getElementById('iconGrid').style.display='none';buildIconGrid();buildColorRow();renderCatManager();toast(t('toast.catAdded'));await cloudInsertCat(cat);}
 function askDeleteCategory(id){const c=catMap[id];if(!c||c.locked)return;const used=TX.filter(t2=>t2.cat===id).length;const msg=used>0?(LANG==='id'?`Kategori "${c.name}" dipakai di ${used} transaksi. Transaksi akan dipindah ke "Lainnya".`:`Category "${c.name}" used in ${used} transactions. Moved to "Others".`):(LANG==='id'?`Kategori "${c.name}" akan dihapus permanen.`:`Category "${c.name}" will be deleted.`);confirmBox({icon:'box',title:t('confirm.delCatTitle'),msg,yes:t('confirm.delCatYes'),danger:true,onYes:async()=>{if(used>0){TX.forEach(t2=>{if(t2.cat===id)t2.cat='lainnya';});saveTxLocal();}CATS=CATS.filter(x=>x.id!==id);saveCatsLocal();rebuildCatMap();renderCatManager();renderAll();toast(t('toast.catDeleted'),true);await cloudDeleteCat(id);}});}
 
-/* =========================================================
-   LOCAL STORAGE (CACHE)
-   ========================================================= */
 const LS_TX='ck_transactions_v2';
 const LS_CAT='ck_categories_v2';
 function saveTxLocal(){try{localStorage.setItem(LS_TX,JSON.stringify(TX));}catch(e){}}
 function saveCatsLocal(){try{localStorage.setItem(LS_CAT,JSON.stringify(CATS));}catch(e){}}
 function loadCache(){try{const tx=localStorage.getItem(LS_TX);const cat=localStorage.getItem(LS_CAT);if(tx)TX=JSON.parse(tx);if(cat)CATS=JSON.parse(cat);}catch(e){}rebuildCatMap();}
 
-/* =========================================================
-   SUPABASE: DATA
-   ========================================================= */
 async function loadFromCloud(){
   try{
     const {data:cats,error:e1}=await sb.from('categories').select('*').order('created_at',{ascending:true});
@@ -814,29 +737,12 @@ async function loadFromCloud(){
     rebuildCatMap();
   }catch(e){console.warn('loadFromCloud:',e);}
 }
-async function cloudInsertTx(tx){
-  try{
-    await sb.from('transactions').insert({id:tx.id,date:tx.date,category_id:tx.cat,amount:tx.amount,note:tx.note||''});
-  }catch(e){console.warn('cloudInsertTx:',e);}
-}
-async function cloudUpdateTx(tx){
-  try{
-    await sb.from('transactions').update({date:tx.date,category_id:tx.cat,amount:tx.amount,note:tx.note||'',updated_at:new Date().toISOString()}).eq('id',tx.id);
-  }catch(e){console.warn('cloudUpdateTx:',e);}
-}
-async function cloudDeleteTx(id){
-  try{await sb.from('transactions').delete().eq('id',id);}catch(e){console.warn('cloudDeleteTx:',e);}
-}
-async function cloudInsertCat(cat){
-  try{await sb.from('categories').insert({id:cat.id,name:cat.name,icon:cat.icon,color:cat.color,locked:cat.locked});}catch(e){console.warn('cloudInsertCat:',e);}
-}
-async function cloudDeleteCat(id){
-  try{await sb.from('categories').delete().eq('id',id);}catch(e){console.warn('cloudDeleteCat:',e);}
-}
+async function cloudInsertTx(tx){try{await sb.from('transactions').insert({id:tx.id,date:tx.date,category_id:tx.cat,amount:tx.amount,note:tx.note||''});}catch(e){console.warn('cloudInsertTx:',e);}}
+async function cloudUpdateTx(tx){try{await sb.from('transactions').update({date:tx.date,category_id:tx.cat,amount:tx.amount,note:tx.note||'',updated_at:new Date().toISOString()}).eq('id',tx.id);}catch(e){console.warn('cloudUpdateTx:',e);}}
+async function cloudDeleteTx(id){try{await sb.from('transactions').delete().eq('id',id);}catch(e){console.warn('cloudDeleteTx:',e);}}
+async function cloudInsertCat(cat){try{await sb.from('categories').insert({id:cat.id,name:cat.name,icon:cat.icon,color:cat.color,locked:cat.locked});}catch(e){console.warn('cloudInsertCat:',e);}}
+async function cloudDeleteCat(id){try{await sb.from('categories').delete().eq('id',id);}catch(e){console.warn('cloudDeleteCat:',e);}}
 
-/* =========================================================
-   REALTIME
-   ========================================================= */
 let realtimeChannel=null;
 function subscribeRealtime(){
   if(realtimeChannel)sb.removeChannel(realtimeChannel);
@@ -852,9 +758,6 @@ function subscribeRealtime(){
     .subscribe();
 }
 
-/* =========================================================
-   LOGIN / AUTH
-   ========================================================= */
 async function checkAuth(){
   const {data:{session}}=await sb.auth.getSession();
   if(session){CURRENT_USER=session.user;showApp();await afterLogin();return true;}
@@ -862,31 +765,21 @@ async function checkAuth(){
 }
 function showLogin(){document.getElementById('loginWrap').classList.add('show');document.getElementById('app').style.display='none';document.getElementById('mainNav').style.display='none';}
 function showApp(){document.getElementById('loginWrap').classList.remove('show');document.getElementById('app').style.display='block';document.getElementById('mainNav').style.display='flex';}
-async function afterLogin(){
-  loadCache();renderAll();
-  await loadFromCloud();
-  renderAll();
-  subscribeRealtime();
-}
+async function afterLogin(){loadCache();renderAll();await loadFromCloud();renderAll();subscribeRealtime();}
 async function doLogin(){
   const email=document.getElementById('loginEmail').value.trim();
   const password=document.getElementById('loginPassword').value;
-  const errEl=document.getElementById('loginError');
-  const btn=document.getElementById('loginBtn');
+  const errEl=document.getElementById('loginError');const btn=document.getElementById('loginBtn');
   errEl.classList.remove('show');
   if(!email||!password){errEl.textContent=LANG==='id'?'Email dan password wajib diisi':'Email and password required';errEl.classList.add('show');return;}
   btn.disabled=true;btn.innerHTML='<span class="spinner"></span>';
   const {data,error}=await sb.auth.signInWithPassword({email,password});
   btn.disabled=false;btn.textContent='Masuk';
   if(error){errEl.textContent=error.message;errEl.classList.add('show');return;}
-  CURRENT_USER=data.user;
-  showApp();
-  await afterLogin();
+  CURRENT_USER=data.user;showApp();await afterLogin();
 }
 
-/* =========================================================
-   PWA INSTALL
-   ========================================================= */
+/* ============ PWA INSTALL ============ */
 let deferredPrompt=null;
 window.addEventListener('beforeinstallprompt',(e)=>{e.preventDefault();deferredPrompt=e;showInstallBtn();});
 function showInstallBtn(){const btn=document.getElementById('installBtn');if(!btn)return;if(window.matchMedia('(display-mode: standalone)').matches)return;if(window.navigator.standalone===true)return;btn.style.display='grid';btn.classList.add('install');}
@@ -897,9 +790,7 @@ function installPWA(){
 window.addEventListener('appinstalled',()=>{document.getElementById('installBtn').style.display='none';deferredPrompt=null;toast(LANG==='id'?'Aplikasi berhasil di-install ✓':'App installed ✓');});
 if(window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true){setTimeout(()=>{const b=document.getElementById('installBtn');if(b)b.style.display='none';},100);}
 
-/* =========================================================
-   AUTO-UPDATE
-   ========================================================= */
+/* ============ AUTO UPDATE ============ */
 async function checkForUpdate(){
   try{
     const url=window.location.origin+window.location.pathname+'?_ck='+Date.now();
@@ -907,18 +798,12 @@ async function checkForUpdate(){
     if(!res.ok)return;
     const html=await res.text();
     const match=html.match(/<meta name="app-version" content="([^"]+)"/);
-    if(match&&match[1]&&match[1]!==APP_VERSION){
-      document.getElementById('updateBanner').classList.add('show');
-    }
+    if(match&&match[1]&&match[1]!==APP_VERSION){document.getElementById('updateBanner').classList.add('show');}
   }catch(e){}
 }
 async function forceUpdate(){
-  const btn=document.querySelector('#updateBanner button');
-  if(btn){btn.textContent='...';btn.disabled=true;}
-  try{
-    if('caches' in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}
-    if('serviceWorker' in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}
-  }catch(e){}
+  const btn=document.querySelector('#updateBanner button');if(btn){btn.textContent='...';btn.disabled=true;}
+  try{if('caches' in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}if('serviceWorker' in navigator){const regs=await navigator.serviceWorker.getRegistrations();await Promise.all(regs.map(r=>r.unregister()));}}catch(e){}
   const base=window.location.origin+window.location.pathname;
   window.location.href=base+'?v='+Date.now();
 }
@@ -926,42 +811,49 @@ setTimeout(checkForUpdate,4000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkForUpdate();});
 window.addEventListener('online',()=>{checkForUpdate();});
 
-/* =========================================================
-   INIT
-   ========================================================= */
+/* ============ INIT ============ */
 (function initPickers(){
   const am=document.getElementById('actMonth'),ay=document.getElementById('actYear');
   const repM=document.getElementById('repMonth'),repY=document.getElementById('repYear');
   const years=[];for(let y=TODAY.getFullYear()-5;y<=TODAY.getFullYear()+1;y++)years.push(y);
   const fillMonthSel=(sel,cur)=>{sel.innerHTML=MONTHS.map((m,i)=>`<option value="${i}" ${i===cur?'selected':''}>${monthName(i)}</option>`).join('');};
   const fillYearSel=(sel,cur)=>{sel.innerHTML=years.map(y=>`<option value="${y}" ${y===cur?'selected':''}>${y}</option>`).join('');};
-  fillMonthSel(am,S.actM);fillYearSel(ay,S.actY);
-  fillMonthSel(repM,S.repM);fillYearSel(repY,S.repY);
-  am.onchange=()=>{S.actM=+am.value;renderAct();};
-  ay.onchange=()=>{S.actY=+ay.value;renderAct();};
-  repM.onchange=()=>{S.repM=+repM.value;renderRep();};
-  repY.onchange=()=>{S.repY=+repY.value;renderRep();};
-  window._refillMonthSelects=()=>{
-    fillMonthSel(am,S.actM);fillYearSel(ay,S.actY);
-    fillMonthSel(repM,S.repM);fillYearSel(repY,S.repY);
-    am.value=S.actM;ay.value=S.actY;repM.value=S.repM;repY.value=S.repY;
-  };
+  fillMonthSel(am,S.actM);fillYearSel(ay,S.actY);fillMonthSel(repM,S.repM);fillYearSel(repY,S.repY);
+  am.onchange=()=>{S.actM=+am.value;renderAct();};ay.onchange=()=>{S.actY=+ay.value;renderAct();};
+  repM.onchange=()=>{S.repM=+repM.value;renderRep();};repY.onchange=()=>{S.repY=+repY.value;renderRep();};
+  window._refillMonthSelects=()=>{fillMonthSel(am,S.actM);fillYearSel(ay,S.actY);fillMonthSel(repM,S.repM);fillYearSel(repY,S.repY);am.value=S.actM;ay.value=S.actY;repM.value=S.repM;repY.value=S.repY;};
 })();
 
 (async function init(){
   const savedTheme=localStorage.getItem('ck_theme')||'dark';
   const savedLang=localStorage.getItem('ck_lang')||'id';
-  setTheme(savedTheme);
-  LANG=savedLang;S.lang=savedLang;
+  setTheme(savedTheme);LANG=savedLang;S.lang=savedLang;
   document.getElementById('langToggle').classList.toggle('on',savedLang==='en');
   applyTranslations();
   sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
-  sb.auth.onAuthStateChange((event,session)=>{
-    if(event==='SIGNED_OUT'){showLogin();CURRENT_USER=null;if(realtimeChannel)sb.removeChannel(realtimeChannel);}
-  });
+  sb.auth.onAuthStateChange((event,session)=>{if(event==='SIGNED_OUT'){showLogin();CURRENT_USER=null;if(realtimeChannel)sb.removeChannel(realtimeChannel);}});
   document.getElementById('loginPassword').addEventListener('keypress',(e)=>{if(e.key==='Enter')doLogin();});
   await checkAuth();
 })();
+
+/* ============ SERVICE WORKER ============ */
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('./sw.js',{scope:'./'})
+      .then(reg=>{
+        reg.onupdatefound=()=>{
+          const nw=reg.installing;
+          if(!nw)return;
+          nw.onstatechange=()=>{
+            if(nw.state==='installed'&&navigator.serviceWorker.controller){
+              document.getElementById('updateBanner').classList.add('show');
+            }
+          };
+        };
+      })
+      .catch(e=>console.warn('SW register:',e));
+  });
+}
 </script>
 </body>
 </html>
