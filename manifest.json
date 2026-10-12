@@ -1,7 +1,7 @@
 {
   "name": "Catatan Keuangan",
-  "short_name": "CatKeu",
-  "description": "Catatan keuangan simpel untuk kamu & istri",
+  "short_name": "Catatan Keuangan",
+  "description": "Catatan keuangan simpel",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
